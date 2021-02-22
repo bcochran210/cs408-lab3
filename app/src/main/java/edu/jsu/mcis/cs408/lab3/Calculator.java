@@ -14,7 +14,6 @@ public class Calculator {
     private String operator;
 
     private StringBuilder inputBuffer = new StringBuilder();
-    private StringBuilder displayBuffer = new StringBuilder();
 
     private boolean decimalExists = false;
     private boolean accumulate = false;
@@ -25,13 +24,6 @@ public class Calculator {
         AppCompatActivity _parent;
 
         this.parent = parent;
-
-    }
-
-    public void updateBuffers(String digit) {
-
-        inputBuffer.append(digit);
-        displayBuffer.append(digit);
 
     }
 
@@ -166,11 +158,11 @@ public class Calculator {
 
         // Neg / Pos
         if (button.equals(parent.getResources().getString(R.string.u00b1))) {
-            if (!inputBuffer.toString().contains("-")) {
-                inputBuffer.replace(0, inputBuffer.length(), "-" + inputBuffer.toString());
-            } else {
-                inputBuffer.replace(0, inputBuffer.length(), inputBuffer.toString().replace("-", ""));
-            }
+            BigDecimal number = new BigDecimal(inputBuffer.toString());
+
+            number = number.negate();
+            inputBuffer.setLength(0);
+            inputBuffer.append(number);
         }
 
         // Square Root
@@ -178,7 +170,8 @@ public class Calculator {
             double value = Double.parseDouble(inputBuffer.toString());
             double squareRoot = Math.pow(value, 0.5);
 
-            inputBuffer.replace(0, inputBuffer.length(), String.valueOf(squareRoot));
+            inputBuffer.setLength(0);
+            inputBuffer.append(squareRoot);
         }
 
         if (button.equals(parent.getResources().getString(R.string._add))) {
@@ -388,29 +381,27 @@ public class Calculator {
                 lValue = lValue.add(rValue);
                 inputBuffer.setLength(0);
                 inputBuffer.append(lValue);
-                operator = null;
             } else if (operator == "-") {
                 lValue = lValue.subtract(rValue);
                 inputBuffer.setLength(0);
                 inputBuffer.append(lValue);
-                operator = null;
             } else if (operator == "*") {
                 lValue = lValue.multiply(rValue);
                 inputBuffer.setLength(0);
                 inputBuffer.append(lValue);
-                operator = null;
             } else if (operator == "/") {
                 lValue = lValue.divide(rValue);
                 inputBuffer.setLength(0);
                 inputBuffer.append(lValue);
-                operator = null;
             } else if (operator == "%") {
                 lValue = lValue.remainder(rValue);
                 inputBuffer.setLength(0);
                 inputBuffer.append(lValue);
-                operator = null;
             }
 
+            operator = null;
+            lValue = null;
+            rValue = null;
             decimalExists = false;
             accumulate = false;
 
