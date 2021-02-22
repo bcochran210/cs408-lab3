@@ -7,12 +7,18 @@ import java.math.BigDecimal;
 public class Calculator {
 
     private AppCompatActivity parent;
+
     private BigDecimal lValue;
     private BigDecimal rValue;
-    private BigDecimal result;
+
+    private String operator;
+
     private StringBuilder inputBuffer = new StringBuilder();
     private StringBuilder displayBuffer = new StringBuilder();
-    private String operator;
+
+    private boolean decimalExists = false;
+    private boolean accumulate = false;
+
 
     public Calculator (AppCompatActivity parent) {
 
@@ -36,102 +42,339 @@ public class Calculator {
             lValue = null;
             rValue = null;
             operator = null;
-            inputBuffer = new StringBuilder();
-            displayBuffer = new StringBuilder();
+            inputBuffer.setLength(0);
+            decimalExists = false;
+            accumulate = false;
         }
 
         if (button.equals(parent.getResources().getString(R.string._1))) {
-            inputBuffer.append("1");
-            displayBuffer.append("1");
+            if (accumulate == false || inputBuffer.toString().startsWith("0")) {
+                inputBuffer.setLength(0);
+                accumulate = true;
+            }
+
+            if (accumulate == true) {
+                inputBuffer.append("1");
+            }
         }
 
         if (button.equals(parent.getResources().getString(R.string._2))) {
-            inputBuffer.append("2");
-            displayBuffer.append("2");
+            if (accumulate == false || inputBuffer.toString().startsWith("0")) {
+                inputBuffer.setLength(0);
+                accumulate = true;
+            }
+
+            if (accumulate == true) {
+                inputBuffer.append("2");
+            }
         }
 
         if (button.equals(parent.getResources().getString(R.string._3))) {
-            inputBuffer.append("3");
-            displayBuffer.append("3");
+            if (accumulate == false || inputBuffer.toString().startsWith("0")) {
+                inputBuffer.setLength(0);
+                accumulate = true;
+            }
+
+            if (accumulate == true) {
+                inputBuffer.append("3");
+            }
         }
 
         if (button.equals(parent.getResources().getString(R.string._4))) {
-            inputBuffer.append("4");
-            displayBuffer.append("4");
+            if (accumulate == false || inputBuffer.toString().startsWith("0")) {
+                inputBuffer.setLength(0);
+                accumulate = true;
+            }
+
+            if (accumulate == true) {
+                inputBuffer.append("4");
+            }
         }
 
         if (button.equals(parent.getResources().getString(R.string._5))) {
-            inputBuffer.append("5");
-            displayBuffer.append("5");
+            if (accumulate == false || inputBuffer.toString().startsWith("0")) {
+                inputBuffer.setLength(0);
+                accumulate = true;
+            }
+
+            if (accumulate == true) {
+                inputBuffer.append("5");
+            }
         }
 
         if (button.equals(parent.getResources().getString(R.string._6))) {
-            inputBuffer.append("6");
-            displayBuffer.append("6");
+            if (accumulate == false || inputBuffer.toString().startsWith("0")) {
+                inputBuffer.setLength(0);
+                accumulate = true;
+            }
+
+            if (accumulate == true) {
+                inputBuffer.append("6");
+            }
         }
 
         if (button.equals(parent.getResources().getString(R.string._7))) {
-            inputBuffer.append("7");
-            displayBuffer.append("7");
+            if (accumulate == false || inputBuffer.toString().startsWith("0")) {
+                inputBuffer.setLength(0);
+                accumulate = true;
+            }
+
+            if (accumulate == true) {
+                inputBuffer.append("7");
+            }
         }
 
         if (button.equals(parent.getResources().getString(R.string._8))) {
-            inputBuffer.append("8");
-            displayBuffer.append("8");
+            if (accumulate == false || inputBuffer.toString().startsWith("0")) {
+                inputBuffer.setLength(0);
+                accumulate = true;
+            }
+
+            if (accumulate == true) {
+                inputBuffer.append("8");
+            }
         }
 
         if (button.equals(parent.getResources().getString(R.string._9))) {
-            inputBuffer.append("9");
-            displayBuffer.append("9");
+            if (accumulate == false || inputBuffer.toString().startsWith("0")) {
+                inputBuffer.setLength(0);
+                accumulate = true;
+            }
+
+            if (accumulate == true) {
+                inputBuffer.append("9");
+            }
         }
 
         if (button.equals(parent.getResources().getString(R.string._0))) {
-            inputBuffer.append("0");
-            displayBuffer.append("0");
+            if (accumulate == false || inputBuffer.toString().startsWith("0")) {
+                inputBuffer.setLength(0);
+                accumulate = true;
+            }
+
+            if (accumulate == true) {
+                inputBuffer.append("0");
+            }
         }
 
         if (button.equals(parent.getResources().getString(R.string._decimal))) {
-            if(!inputBuffer.toString().contains(".")) {
+            if (decimalExists == false) {
                 inputBuffer.append(".");
-                displayBuffer.append(".");
+                decimalExists = true;
             }
         }
 
-        if (button.equals(parent.getResources().getString(R.string._add))) {
-            /*displayBuffer = new StringBuilder();
-            if (lValue != null && !inputBuffer.toString().isEmpty()) {
-                rValue = new BigDecimal(inputBuffer.toString());
-                lValue = lValue.add(rValue);
-                rValue = new BigDecimal("0");
-                displayBuffer.append(lValue);
-                inputBuffer = new StringBuilder();
-            } else if (!inputBuffer.toString().isEmpty()) {
-                lValue = new BigDecimal(inputBuffer.toString());
-                inputBuffer = new StringBuilder();
-            }*/
+        // Neg / Pos
+        if (button.equals(parent.getResources().getString(R.string.u00b1))) {
+            if (!inputBuffer.toString().contains("-")) {
+                inputBuffer.replace(0, inputBuffer.length(), "-" + inputBuffer.toString());
+            } else {
+                inputBuffer.replace(0, inputBuffer.length(), inputBuffer.toString().replace("-", ""));
+            }
+        }
 
-            //BigDecimal operand = new BigDecimal(inputBuffer.toString());
+        // Square Root
+        if (button.equals(parent.getResources().getString(R.string.u221a))) {
+            double value = Double.parseDouble(inputBuffer.toString());
+            double squareRoot = Math.pow(value, 0.5);
+
+            inputBuffer.replace(0, inputBuffer.length(), String.valueOf(squareRoot));
+        }
+
+        if (button.equals(parent.getResources().getString(R.string._add))) {
+            BigDecimal operand = new BigDecimal(inputBuffer.toString());
+
+            if (lValue == null) {
+                lValue = operand;
+            } else if (lValue != null) {
+                rValue = operand;
+            }
+
+            // If the current operator is not set to null, evaluate it
+            if (operator != null) {
+                if (rValue == null) {
+                    rValue = lValue;
+                }
+                if (operator == "+") {
+                    lValue = lValue.add(rValue);
+                } else if (operator == "-") {
+                    lValue = lValue.subtract(rValue);
+                } else if (operator == "*") {
+                    lValue = lValue.multiply(rValue);
+                } else if (operator == "/") {
+                    lValue = lValue.divide(rValue);
+                } else if (operator == "%") {
+                    lValue = lValue.remainder(rValue);
+                }
+                rValue = null;
+                operator = null;
+            }
+
+            inputBuffer.setLength(0);
+            inputBuffer.append(lValue);
+            decimalExists = false;
+            accumulate = false;
+
+            // Set current operator entered by user
             operator = "+";
 
-            if (lValue == null && !inputBuffer.toString().isEmpty()) {
-                lValue = new BigDecimal(inputBuffer.toString());
-            } else if (lValue != null && !inputBuffer.toString().isEmpty()) {
-                rValue = new BigDecimal(inputBuffer.toString());
+        }
+
+        if (button.equals(parent.getResources().getString(R.string._sub))) {
+            BigDecimal operand = new BigDecimal(inputBuffer.toString());
+
+            if (lValue == null) {
+                lValue = operand;
+            } else if (lValue != null) {
+                rValue = operand;
             }
 
-            if (rValue != null && !inputBuffer.toString().isEmpty()) {
-
-                if (operator == "+") {
+            // If the current operator is not set to null, evaluate it
+            if (operator != null) {
+                if (rValue == null) {
                     rValue = lValue;
-                    lValue.add(rValue);
-                    //rValue = operand;
-                    inputBuffer = new StringBuilder();
-                    inputBuffer.append(lValue);
                 }
-
+                if (operator == "+") {
+                    lValue = lValue.add(rValue);
+                } else if (operator == "-") {
+                    lValue = lValue.subtract(rValue);
+                } else if (operator == "*") {
+                    lValue = lValue.multiply(rValue);
+                } else if (operator == "/") {
+                    lValue = lValue.divide(rValue);
+                } else if (operator == "%") {
+                    lValue = lValue.remainder(rValue);
+                }
+                rValue = null;
+                operator = null;
             }
 
-            //inputBuffer = new StringBuilder();
+            inputBuffer.setLength(0);
+            inputBuffer.append(lValue);
+            decimalExists = false;
+            accumulate = false;
+
+            // Set current operator entered by user
+            operator = "-";
+
+        }
+
+        // Multiply
+        if (button.equals(parent.getResources().getString(R.string.u00d7))) {
+            BigDecimal operand = new BigDecimal(inputBuffer.toString());
+
+            if (lValue == null) {
+                lValue = operand;
+            } else if (lValue != null) {
+                rValue = operand;
+            }
+
+            // If the current operator is not set to null, evaluate it
+            if (operator != null) {
+                if (rValue == null) {
+                    rValue = lValue;
+                }
+                if (operator == "+") {
+                    lValue = lValue.add(rValue);
+                } else if (operator == "-") {
+                    lValue = lValue.subtract(rValue);
+                } else if (operator == "*") {
+                    lValue = lValue.multiply(rValue);
+                } else if (operator == "/") {
+                    lValue = lValue.divide(rValue);
+                } else if (operator == "%") {
+                    lValue = lValue.remainder(rValue);
+                }
+                rValue = null;
+                operator = null;
+            }
+
+            inputBuffer.setLength(0);
+            inputBuffer.append(lValue);
+            decimalExists = false;
+            accumulate = false;
+
+            // Set current operator entered by user
+            operator = "*";
+
+        }
+
+        // Divide
+        if (button.equals(parent.getResources().getString(R.string.u00f7))) {
+            BigDecimal operand = new BigDecimal(inputBuffer.toString());
+
+            if (lValue == null) {
+                lValue = operand;
+            } else if (lValue != null) {
+                rValue = operand;
+            }
+
+            // If the current operator is not set to null, evaluate it
+            if (operator != null) {
+                if (rValue == null) {
+                    rValue = lValue;
+                }
+                if (operator == "+") {
+                    lValue = lValue.add(rValue);
+                } else if (operator == "-") {
+                    lValue = lValue.subtract(rValue);
+                } else if (operator == "*") {
+                    lValue = lValue.multiply(rValue);
+                } else if (operator == "/") {
+                    lValue = lValue.divide(rValue);
+                } else if (operator == "%") {
+                    lValue = lValue.remainder(rValue);
+                }
+                rValue = null;
+                operator = null;
+            }
+
+            inputBuffer.setLength(0);
+            inputBuffer.append(lValue);
+            decimalExists = false;
+            accumulate = false;
+
+            // Set current operator entered by user
+            operator = "/";
+
+        }
+
+        if (button.equals(parent.getResources().getString(R.string._Modulud))) {
+            BigDecimal operand = new BigDecimal(inputBuffer.toString());
+
+            if (lValue == null) {
+                lValue = operand;
+            } else if (lValue != null) {
+                rValue = operand;
+            }
+
+            // If the current operator is not set to null, evaluate it
+            if (operator != null) {
+                if (rValue == null) {
+                    rValue = lValue;
+                }
+                if (operator == "+") {
+                    lValue = lValue.add(rValue);
+                } else if (operator == "-") {
+                    lValue = lValue.subtract(rValue);
+                } else if (operator == "*") {
+                    lValue = lValue.multiply(rValue);
+                } else if (operator == "/") {
+                    lValue = lValue.divide(rValue);
+                } else if (operator == "%") {
+                    lValue = lValue.remainder(rValue);
+                }
+                rValue = null;
+                operator = null;
+            }
+
+            inputBuffer.setLength(0);
+            inputBuffer.append(lValue);
+            decimalExists = false;
+            accumulate = false;
+
+            // Set current operator entered by user
+            operator = "%";
 
         }
 
@@ -143,14 +386,35 @@ public class Calculator {
 
             if (operator == "+") {
                 lValue = lValue.add(rValue);
-                inputBuffer = new StringBuilder();
+                inputBuffer.setLength(0);
+                inputBuffer.append(lValue);
+                operator = null;
+            } else if (operator == "-") {
+                lValue = lValue.subtract(rValue);
+                inputBuffer.setLength(0);
+                inputBuffer.append(lValue);
+                operator = null;
+            } else if (operator == "*") {
+                lValue = lValue.multiply(rValue);
+                inputBuffer.setLength(0);
+                inputBuffer.append(lValue);
+                operator = null;
+            } else if (operator == "/") {
+                lValue = lValue.divide(rValue);
+                inputBuffer.setLength(0);
+                inputBuffer.append(lValue);
+                operator = null;
+            } else if (operator == "%") {
+                lValue = lValue.remainder(rValue);
+                inputBuffer.setLength(0);
                 inputBuffer.append(lValue);
                 operator = null;
             }
 
-        }
+            decimalExists = false;
+            accumulate = false;
 
-        //return result;
+        }
 
     }
 
