@@ -40,7 +40,7 @@ public class Calculator {
         }
 
         if (button.equals(parent.getResources().getString(R.string._1))) {
-            if (accumulate == false || inputBuffer.toString().startsWith("0")) {
+            if (accumulate == false) {
                 inputBuffer.setLength(0);
                 accumulate = true;
             }
@@ -51,7 +51,7 @@ public class Calculator {
         }
 
         if (button.equals(parent.getResources().getString(R.string._2))) {
-            if (accumulate == false || inputBuffer.toString().startsWith("0")) {
+            if (accumulate == false) {
                 inputBuffer.setLength(0);
                 accumulate = true;
             }
@@ -62,7 +62,7 @@ public class Calculator {
         }
 
         if (button.equals(parent.getResources().getString(R.string._3))) {
-            if (accumulate == false || inputBuffer.toString().startsWith("0")) {
+            if (accumulate == false) {
                 inputBuffer.setLength(0);
                 accumulate = true;
             }
@@ -73,7 +73,7 @@ public class Calculator {
         }
 
         if (button.equals(parent.getResources().getString(R.string._4))) {
-            if (accumulate == false || inputBuffer.toString().startsWith("0")) {
+            if (accumulate == false) {
                 inputBuffer.setLength(0);
                 accumulate = true;
             }
@@ -84,7 +84,7 @@ public class Calculator {
         }
 
         if (button.equals(parent.getResources().getString(R.string._5))) {
-            if (accumulate == false || inputBuffer.toString().startsWith("0")) {
+            if (accumulate == false) {
                 inputBuffer.setLength(0);
                 accumulate = true;
             }
@@ -95,7 +95,7 @@ public class Calculator {
         }
 
         if (button.equals(parent.getResources().getString(R.string._6))) {
-            if (accumulate == false || inputBuffer.toString().startsWith("0")) {
+            if (accumulate == false) {
                 inputBuffer.setLength(0);
                 accumulate = true;
             }
@@ -106,7 +106,7 @@ public class Calculator {
         }
 
         if (button.equals(parent.getResources().getString(R.string._7))) {
-            if (accumulate == false || inputBuffer.toString().startsWith("0")) {
+            if (accumulate == false) {
                 inputBuffer.setLength(0);
                 accumulate = true;
             }
@@ -117,7 +117,7 @@ public class Calculator {
         }
 
         if (button.equals(parent.getResources().getString(R.string._8))) {
-            if (accumulate == false || inputBuffer.toString().startsWith("0")) {
+            if (accumulate == false) {
                 inputBuffer.setLength(0);
                 accumulate = true;
             }
@@ -128,7 +128,7 @@ public class Calculator {
         }
 
         if (button.equals(parent.getResources().getString(R.string._9))) {
-            if (accumulate == false || inputBuffer.toString().startsWith("0")) {
+            if (accumulate == false) {
                 inputBuffer.setLength(0);
                 accumulate = true;
             }
@@ -139,7 +139,7 @@ public class Calculator {
         }
 
         if (button.equals(parent.getResources().getString(R.string._0))) {
-            if (accumulate == false || inputBuffer.toString().startsWith("0")) {
+            if (accumulate == false) {
                 inputBuffer.setLength(0);
                 accumulate = true;
             }
